@@ -10,14 +10,6 @@
 #include "Cell.hpp"
 
 //
-#include <iostream>
-#include <array>
-#include <vector>
-#include <type_traits>
-#include <cstdlib>
-#include <fstream>
-#include<time.h>
-#include <stdexcept>
 
 class MazeGame {
     
