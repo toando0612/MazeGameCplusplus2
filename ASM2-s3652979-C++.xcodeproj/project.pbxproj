@@ -10,6 +10,8 @@
 		BEC430CA227C041300AE4A9D /* mazer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC430C9227C041300AE4A9D /* mazer.cpp */; };
 		BEC430D2227C047600AE4A9D /* MazeGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC430D0227C047600AE4A9D /* MazeGame.cpp */; };
 		BEC430D5227C050000AE4A9D /* Cell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC430D3227C050000AE4A9D /* Cell.cpp */; };
+		BEF3CF30227F393300E8FE7D /* GrowingTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF3CF2E227F393300E8FE7D /* GrowingTree.cpp */; };
+		BEF3CF33227F424C00E8FE7D /* Prim.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF3CF31227F424C00E8FE7D /* Prim.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +33,10 @@
 		BEC430D1227C047600AE4A9D /* MazeGame.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MazeGame.hpp; sourceTree = "<group>"; };
 		BEC430D3227C050000AE4A9D /* Cell.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cell.cpp; sourceTree = "<group>"; };
 		BEC430D4227C050000AE4A9D /* Cell.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Cell.hpp; sourceTree = "<group>"; };
+		BEF3CF2E227F393300E8FE7D /* GrowingTree.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GrowingTree.cpp; sourceTree = "<group>"; };
+		BEF3CF2F227F393300E8FE7D /* GrowingTree.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GrowingTree.hpp; sourceTree = "<group>"; };
+		BEF3CF31227F424C00E8FE7D /* Prim.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Prim.cpp; sourceTree = "<group>"; };
+		BEF3CF32227F424C00E8FE7D /* Prim.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Prim.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +74,10 @@
 				BEC430D1227C047600AE4A9D /* MazeGame.hpp */,
 				BEC430D3227C050000AE4A9D /* Cell.cpp */,
 				BEC430D4227C050000AE4A9D /* Cell.hpp */,
+				BEF3CF2E227F393300E8FE7D /* GrowingTree.cpp */,
+				BEF3CF2F227F393300E8FE7D /* GrowingTree.hpp */,
+				BEF3CF31227F424C00E8FE7D /* Prim.cpp */,
+				BEF3CF32227F424C00E8FE7D /* Prim.hpp */,
 			);
 			path = "ASM2-s3652979-C++";
 			sourceTree = "<group>";
@@ -129,8 +139,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEC430D5227C050000AE4A9D /* Cell.cpp in Sources */,
+				BEF3CF30227F393300E8FE7D /* GrowingTree.cpp in Sources */,
 				BEC430D2227C047600AE4A9D /* MazeGame.cpp in Sources */,
 				BEC430CA227C041300AE4A9D /* mazer.cpp in Sources */,
+				BEF3CF33227F424C00E8FE7D /* Prim.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

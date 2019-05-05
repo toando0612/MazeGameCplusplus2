@@ -8,7 +8,6 @@
 
 #define Cell_hpp
 
-#pragma once
 #include <iostream>
 #include <array>
 #include <vector>
@@ -25,12 +24,23 @@ private:
     array<int, 2> coord;
     bool killed;
 public://method or action on the attribubtes
-    void setEdgeList(array<edge, 4> new_edge_list){edge_list = new_edge_list;}
-    void setVisited(bool status){visited = status;}
-    void setKilled(bool status){killed = status;}
-    void setCoord(array<int, 2> newCoord){coord = newCoord;}
-    array<edge, 4> getEdgeList(){return edge_list;}
-    bool getVisited(){return visited;}
-    bool getKilled(){return killed;}
-    array<int, 2> getCoord(){return coord;}
+    Cell();
+    
+    virtual ~Cell();
+    
+    bool getVisited() const;
+    
+    void setVisited(bool visited);
+    
+    const array<edge, 4> &getEdgeList() const;
+    
+    void setEdgeList(const array<edge, 4> &edgeList);
+    
+    const array<int, 2> &getCoord() const;
+    
+    void setCoord(const array<int, 2> &coord);
+    
+    bool getKilled() const;
+    
+    void setKilled(bool killed);
 };

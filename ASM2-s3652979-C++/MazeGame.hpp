@@ -15,25 +15,37 @@ typedef array<int, 2> isCell;
 
 class MazeGame {
     
-private:
+protected:
     vector <vector<Cell> > maze;
     int height;
     int width;
     int cells;
 public:
     //methods actions on the attributes
-    MazeGame(){}
+    MazeGame();
+    
+    virtual ~MazeGame();
+    
     MazeGame(int height, int width);
-//    MazeGame(int h, int w): height(h), width(w){;}
-    void setMaze(vector<vector<Cell> > newMaze){maze = newMaze;}
-    vector<vector<Cell> > getMaze(){return maze;}
-    int getCells(){return cells;}
-    void setCells(int newCell){cells = newCell;}
-    void setHeight(int h){height = h;}
-    void setWidth(int w){width = w;}
-    int getHeight(){return height;}
-    int getWidth(){return width;}
-    int creatingMaze(int seed);
+    
+    const vector<vector<Cell>> &getMaze() const;
+    
+    void setMaze(const vector<vector<Cell>> &maze);
+    
+    int getHeight() const;
+    
+    void setHeight(int height);
+    
+    int getWidth() const;
+    
+    void setWidth(int width);
+    
+    int getCells() const;
+    
+    void setCells(int cells);
+    
+    virtual int creatingMaze(int seed, MazeGame *mazeGame);
+    
     vector<vector<Cell> > createWall(int seed);
     
 };
