@@ -20,7 +20,9 @@ private:
     int cells;
 public:
     //methods actions on the attributes
-    void constructor(int h, int w ){setHeight(h);setWidth(w);}
+    MazeGame(){}
+    MazeGame(int height, int width);
+//    MazeGame(int h, int w): height(h), width(w){;}
     void setMaze(vector<vector<Cell> > newMaze){maze = newMaze;}
     vector<vector<Cell> > getMaze(){return maze;}
     int getCells(){return cells;}
@@ -29,7 +31,9 @@ public:
     void setWidth(int w){width = w;}
     int getHeight(){return height;}
     int getWidth(){return width;}
-    void creatingMaze(int seed);
+    int creatingMaze(int seed);
+    vector<vector<Cell> > createWall(int seed);
+    
 };
 
 //out of range

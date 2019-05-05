@@ -8,29 +8,23 @@
 
 #include "MazeGame.hpp"
 
-//int MazeGame::creatingMaze(int seed){
-//
-//}
-
 bool inRange(unsigned low, unsigned high, unsigned x)
 {
     return  ((x-low) <= (high-low));
 }
 
-void MazeGame::creatingMaze(int seed){
-    array<int, 2> currentLocation;
+MazeGame::MazeGame(int height, int width) : height(height), width(width) {}
+vector<vector<Cell>> MazeGame::createWall(int seed){
     srand(seed);
     //1st draw of maze
     cells = 1;
-    currentLocation[0] = 0;         //set starting point to draw at (0,0)
-    currentLocation[1] = 0;
     vector<vector<Cell> > temp_maze;
     for (auto i = 0; i < width; i++)
     {
         vector<Cell> colums;
         for (auto j = 0; j < height; j++)
         {
-            array< array<int, 4> , 4> temp_edges;
+            array<edge, 4> temp_edges;
             //
             temp_edges[0][0] = i+1;     // set coord for each edge
             temp_edges[0][1] = j;
@@ -52,7 +46,6 @@ void MazeGame::creatingMaze(int seed){
             temp_edges[3][2] = i+1;
             temp_edges[3][3] = j;
             
-            
             Cell cell;
             if (i==0 && j == 0){
                 cell.setVisited(true);      //visited true for (0,0)
@@ -69,11 +62,24 @@ void MazeGame::creatingMaze(int seed){
         }
         temp_maze.push_back(colums);        //push colums to be a maze
     }
-    setMaze(temp_maze);         //set newvalue for maze
-    //become of maze, make the Path
+    return temp_maze;
+}
+
+
+int MazeGame::creatingMaze(int seed){
+    
+    setMaze(createWall(seed));         //set newvalue for maze
+    
+    array<int, 2> currentLocation;
+    currentLocation[0] = rand() % (width-1);         //set starting point to draw at (0,0)
+    currentLocation[1] = rand() % (height-1);
+    
+    
+    //become of maze -> destroy the Walls
     vector<int> neighbours;
     while (true){   //looping for destroying the wall
         /*      check available neighbour  first    */
+        
         int x = currentLocation[0];
         int y = currentLocation[1];
         if (inRange(0, width-1, x+1) && inRange(0, height -1, y) && maze[x+1][y].getVisited() == false){ //check east neighbor
@@ -90,7 +96,6 @@ void MazeGame::creatingMaze(int seed){
         }
         //random move
         if (!neighbours.empty()){     /* case have neighbour for sure   */
-            rand();
             int ran = rand() % neighbours.size();       //random to find the location of array
             int move = neighbours[ran];
             neighbours.clear();
@@ -160,7 +165,7 @@ void MazeGame::creatingMaze(int seed){
             } else{
                 cout <<"error path!" <<endl;
             }
-        }else if(!maze[x][y].getKilled()){      // case dont have any neighbor but the cell is not visisted yet
+        }else if(!maze[x][y].getKilled()){      // case dont have any neighbor but the wall of that cell is not destroyed yet
             //this case to avoid infinity loop
             if (inRange(0, width-1, x+1) && inRange(0, height -1, y)){ //check east neighbor
                 neighbours.push_back(0);
@@ -222,6 +227,7 @@ void MazeGame::creatingMaze(int seed){
             }
         } else if(cells == height*width) { //case dont have neighbour and check if it is end of the maze
             cout << "Your seed is: " << seed << endl;
+            return 0;
         }else{          //case dont have neighbour and start to Hunt algorithm
             int y_loop = 0;
             bool condition = true;
@@ -241,3 +247,5 @@ void MazeGame::creatingMaze(int seed){
         }
     }
 }
+
+

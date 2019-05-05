@@ -12,10 +12,11 @@
 
 #include "MazeGame.hpp"
 
+
 const string GENERATE = "--g";
 const string SAVE_BIN = "--sb";
 const string SAVE_SVG = "--sv";
-int seed;
+unsigned seed;
 unsigned width;
 unsigned height;
 string current = "";
@@ -78,7 +79,7 @@ void genBin(MazeGame mazeGame, string filename){
 
 
 void at(int index) {
-    if(index < 1 || index >= 101) {throw out_of_range("1233333");}
+    if(index < 1 || index >= 1001) {throw out_of_range("1233333");}
 }
 
 
@@ -98,7 +99,9 @@ int main(int argc, char* argv[]) {
         if (argc == 7 ){ //have seed
             //collect seed
             try {
-                seed = stol(argv [i+1]);
+                seed = (int) stol(argv [i+1]);
+//                cout <<"seed:" << seed << endl;
+//                seed = 30;
             }catch (const invalid_argument){
                 cout << "Seed must be a number" <<endl;
                 return 1;
@@ -109,8 +112,12 @@ int main(int argc, char* argv[]) {
 
             //collect height
             try {
-                width = stol(argv [i+2]);
-                height = stol(argv [i+3]);
+//                width = 30;
+//                height = 30;
+                width = (int) stol(argv [i+2]);
+                height = (int) stol(argv [i+3]);
+//                cout <<"wid:" << width << endl;
+//                cout <<"hei:" << height << endl;
 
             }catch (const invalid_argument &e){
                 cout << "Height and width must be numbers" <<endl;
@@ -122,23 +129,23 @@ int main(int argc, char* argv[]) {
                 return 1;
             }
             if (argv[i+4] == SAVE_SVG){     //save svg
+                
+
                 string filename = argv[i+5];
-                MazeGame *mazeGame;
-                mazeGame->constructor(height, width);
+                MazeGame *mazeGame = new MazeGame(height, width);
                 mazeGame->creatingMaze(seed);
                 genSvg(*mazeGame, filename);
             }else if(argv[i+4] == SAVE_BIN){    //save binary
                 string filename = argv[i+5];
-                MazeGame *mazeGame;
-                mazeGame->constructor(height, width);
+                MazeGame *mazeGame = new MazeGame(height, width);
                 mazeGame->creatingMaze(seed);
-//                genBin(mazeGame, filename);
+                genBin(*mazeGame, filename);
             }
         } else if(argc == 6){ //no seed
             seed = 10; //default seed
             try {
-                width = stol(argv [i+1]);
-                height = stol(argv [i+2]);
+                width = (int)stol(argv [i+1]);
+                height = (int)stol(argv [i+2]);
             }catch (const invalid_argument &e){
                 cout << "Height and width must be numbers" <<endl;
                 at(width);
@@ -150,16 +157,14 @@ int main(int argc, char* argv[]) {
             }
             if (argv[i+3] == SAVE_SVG){
                 string filename = argv[i+4];
-                MazeGame *mazeGame;
-                mazeGame->constructor(height, width);
+                MazeGame *mazeGame = new MazeGame(height, width);
                 mazeGame->creatingMaze(seed);
-//                genSvg(mazeGame, filename);
+                genSvg(*mazeGame, filename);
             }else if(argv[i+3] == SAVE_BIN){
                 string filename = argv[i+4];
-                MazeGame *mazeGame;
-                mazeGame->constructor(height, width);
+                MazeGame *mazeGame = new MazeGame(height, width);
                 mazeGame->creatingMaze(seed);
-//                genBin(mazeGame, filename);
+                genBin(*mazeGame, filename);
             }
         } else if(argv[i] == GENERATE){ //there must be save both types or loading
             //save binary
@@ -169,7 +174,7 @@ int main(int argc, char* argv[]) {
                 //have seed
                 //collect seed
                 try {
-                    seed = stol(argv [i+1]);
+                    seed = (int)stol(argv [i+1]);
                 }catch (const invalid_argument){
                     cout << "Seed must be a number" <<endl;
                     return 1;
@@ -180,8 +185,8 @@ int main(int argc, char* argv[]) {
 
                 //collect height
                 try {
-                    width = stol(argv [i+2]);
-                    height = stol(argv [i+3]);
+                    width = (int)stol(argv [i+2]);
+                    height = (int)stol(argv [i+3]);
 
                 }catch (const invalid_argument &e){
                     cout << "Height and width must be numbers" <<endl;
@@ -194,18 +199,17 @@ int main(int argc, char* argv[]) {
                 }
                 string filenameB = argv[i+5];
                 string filenameS = argv[i+7];
-                MazeGame mazeGame;
-                mazeGame.constructor(height,width);
-                mazeGame.creatingMaze(seed);
-                genSvg(mazeGame, filenameS);
-                genBin(mazeGame, filenameB);
+                MazeGame *mazeGame = new MazeGame(height, width);
+                mazeGame->creatingMaze(seed);
+                genSvg(*mazeGame, filenameS);
+                genBin(*mazeGame, filenameB);
             } else if (argc==8){
                 //no seed
                 seed = 10; //default seed
                 //collect height
                 try {
-                    width = stol(argv [i+1]);
-                    height = stol(argv [i+2]);
+                    width = (int)stol(argv [i+1]);
+                    height = (int)stol(argv [i+2]);
                 }catch (const invalid_argument &e){
                     cout << "Height and width must be numbers" <<endl;
                     at(width);
@@ -217,11 +221,10 @@ int main(int argc, char* argv[]) {
                 }
                 string filenameB = argv[i+4];
                 string filenameS = argv[i+6];
-                MazeGame mazeGame;
-                mazeGame.constructor(height,width);
-                mazeGame.creatingMaze(seed);
-                genSvg(mazeGame, filenameS);
-                genBin(mazeGame, filenameB);
+                MazeGame *mazeGame = new MazeGame(height, width);
+                mazeGame->creatingMaze(seed);
+                genSvg(*mazeGame, filenameS);
+                genBin(*mazeGame, filenameB);
             } else{
                 cout << "Invalid input!";
             }
