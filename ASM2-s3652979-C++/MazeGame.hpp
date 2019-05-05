@@ -10,6 +10,8 @@
 #include "Cell.hpp"
 
 //
+typedef array<int, 2> isCell;
+
 
 class MazeGame {
     
