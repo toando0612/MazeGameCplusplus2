@@ -23,7 +23,6 @@ public:
     
     vector<vector<Cell> > createWall(int seed);
     
-    
 };
 
  /* GrowingTree_hpp */

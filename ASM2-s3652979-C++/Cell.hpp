@@ -7,7 +7,7 @@
 //
 
 #define Cell_hpp
-
+#pragma once
 #include <iostream>
 #include <array>
 #include <vector>
@@ -22,7 +22,8 @@ private:
     bool visited;
     array<edge, 4> edge_list;
     array<int, 2> coord;
-    bool killed;
+    bool inMaze;
+
 public://method or action on the attribubtes
     Cell();
     
@@ -40,7 +41,7 @@ public://method or action on the attribubtes
     
     void setCoord(const array<int, 2> &coord);
     
-    bool getKilled() const;
+    bool isInMaze() const;
     
-    void setKilled(bool killed);
+    void setInMaze(bool inMaze);
 };

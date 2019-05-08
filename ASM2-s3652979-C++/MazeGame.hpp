@@ -5,11 +5,14 @@
 //  Created by Toan Do on 5/3/19.
 //  Copyright © 2019 Toan Do. All rights reserved.
 //
+#pragma once
 #include <iostream>
 #include <fstream>
 #include "Cell.hpp"
 
 //
+bool inRange(unsigned low, unsigned high, unsigned x);
+
 typedef array<int, 2> isCell;
 
 
@@ -19,7 +22,6 @@ protected:
     vector <vector<Cell> > maze;
     int height;
     int width;
-    int cells;
 public:
     //methods actions on the attributes
     MazeGame();
@@ -39,10 +41,6 @@ public:
     int getWidth() const;
     
     void setWidth(int width);
-    
-    int getCells() const;
-    
-    void setCells(int cells);
     
     virtual int creatingMaze(int seed, MazeGame *mazeGame);
     

@@ -9,13 +9,22 @@
 #ifndef Prim_hpp
 #define Prim_hpp
 
-#include <stdio.h>
+#include "MazeGame.hpp"
+class Prim : public MazeGame {
 
-class Prim {
-    
-    
 public:
+    Prim();
     
+    virtual ~Prim();
+    
+    Prim(int height, int width);
+    
+    int creatingMaze(int seed, MazeGame *mazeGame);
+    
+    vector<vector<Cell> > createWall(int seed);
+
+    
+
 };
 
 #endif /* Prim_hpp */

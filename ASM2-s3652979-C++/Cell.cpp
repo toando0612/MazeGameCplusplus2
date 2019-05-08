@@ -38,10 +38,12 @@ void Cell::setCoord(const array<int, 2> &coord) {
     Cell::coord = coord;
 }
 
-bool Cell::getKilled() const {
-    return killed;
+bool Cell::isInMaze() const {
+    return inMaze;
 }
 
-void Cell::setKilled(bool killed) {
-    Cell::killed = killed;
+void Cell::setInMaze(bool inMaze) {
+    Cell::inMaze = inMaze;
 }
+
+

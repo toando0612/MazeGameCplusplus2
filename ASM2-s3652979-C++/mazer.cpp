@@ -11,6 +11,7 @@
 
 
 #include "GrowingTree.hpp"
+#include "Prim.hpp"
 
 
 const string GENERATE = "--g";
@@ -53,7 +54,7 @@ void genSvg(MazeGame maze, string filename) {
 void genBin(MazeGame mazeGame, string filename){
     std::fstream output(filename,std::fstream::out | std::fstream::binary | std::fstream::trunc);
     //     Write headers
-    const int cells = mazeGame.getCells();
+    const int cells = height*width;
     const int height = mazeGame.getHeight();
     const int width = mazeGame.getWidth();
     output.write((char*)&width, sizeof(width));
@@ -118,8 +119,13 @@ int main(int argc, char* argv[]) {
             if (argv[i+4] == SAVE_SVG){     //save svg
                 string filename = argv[i+5];
                 MazeGame *mazeGame;
-                GrowingTree growingTree(height, width);
-                mazeGame = &growingTree;
+                
+//                GrowingTree growingTree(height, width);
+//                mazeGame = &growingTree;
+                
+                Prim prim(height, width);
+                mazeGame = &prim;
+//                cout << "here" << endl;
                 mazeGame->setMaze(mazeGame->createWall(seed));
                 mazeGame->creatingMaze(seed, mazeGame);
                 genSvg(*mazeGame, filename);

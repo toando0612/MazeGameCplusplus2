@@ -12,4 +12,6 @@ add_executable(ASM2_s3652979_C__
         ASM2-s3652979-C++/MazeGame.hpp
         ASM2-s3652979-C++/GrowingTree.cpp
         ASM2-s3652979-C++/GrowingTree.hpp
+ 	ASM2-s3652979-C++/Prim.cpp
+        ASM2-s3652979-C++/Prim.hpp
         ASM2-s3652979-C++/mazer.cpp)

@@ -8,6 +8,10 @@
 
 #include "MazeGame.hpp"
 
+bool inRange(unsigned low, unsigned high, unsigned x)
+{
+    return  ((x-low) <= (high-low));
+}
 
 MazeGame::MazeGame() {}
 
@@ -40,20 +44,12 @@ void MazeGame::setWidth(int width) {
     MazeGame::width = width;
 }
 
-int MazeGame::getCells() const {
-    return cells;
-}
-
-void MazeGame::setCells(int cells) {
-    MazeGame::cells = cells;
-}
 
 
 vector<vector<Cell>> MazeGame::createWall(int seed){
     cout << "createWall of MazeGame class." << endl;
     srand(seed);
     //1st draw of maze
-    cells = 1;
     vector<vector<Cell> > temp_maze;
     for (auto i = 0; i < width; i++)
     {
@@ -89,7 +85,7 @@ vector<vector<Cell>> MazeGame::createWall(int seed){
                 cell.setVisited(false);
             }
             cell.setEdgeList(temp_edges);      //push edge to cell
-            cell.setKilled(false);
+//            cell.setKilled(false);
             array<int, 2> temp_arr;
             temp_arr[0] = i;
             temp_arr[1] = j;
