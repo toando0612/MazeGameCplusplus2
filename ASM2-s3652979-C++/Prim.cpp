@@ -2,7 +2,7 @@
 //  Prim.cpp
 //  ASM2-s3652979-C++
 //
-//  Created by Toan Do on 5/5/19.
+//  Created by Toan Do on 4/27/19.
 //  Copyright © 2019 Toan Do. All rights reserved.
 //
 
@@ -14,17 +14,18 @@ Prim::~Prim() {
     
 }
 
-Prim::Prim(int height, int width) : MazeGame(height, width) {}
+Prim::Prim(unsigned short int height, unsigned short int width) : MazeGame(height, width) {}
 
-vector<vector<Cell> > Prim::createWall(int seed){
-    cout << "createWall of Prim class" << endl;
+vector<vector<Cell> > Prim::createWall(){
+//    cout << "createWall of Prim class" << endl;
     vector<vector<Cell>> temp;
     return temp;
 }
 
 int Prim::creatingMaze(int seed, MazeGame *mazeGame){
-    //    setMaze(createWall(seed));         //set newvalue for maze
-    cout << "createMaze of Prim class." << endl;
+    srand(seed);
+    rand();
+//    cout << "createMaze of Prim class." << endl;
     vector<isCell> listOfFrontiers;
     isCell frontier;
     int x = rand() % (width-1);         //set starting point to draw at (0,0)
@@ -103,14 +104,7 @@ int Prim::creatingMaze(int seed, MazeGame *mazeGame){
                 temp_edges2.at(0)[2] = temp_edges2.at(0)[0];
                 temp_edges2.at(0)[3] = temp_edges2.at(0)[1];
                 maze[x][y].setEdgeList(temp_edges1);
-//                maze[x][y].setKilled(true);
                 maze[x-1][y].setEdgeList(temp_edges2);
-//                cell[0] = x-1;
-//                cell[1] = y;
-//                listOfCells.push_back(cell);
-//                maze[x-1][y].setVisited(true);
-//                maze[x-1][y].setKilled(true);
-//                cells++;
             }else if (move == 3){ //go to top   //is move absolutely be 3 if it go here???
                 array<edge, 4> temp_edges1 = maze[x][y].getEdgeList();
                 array<edge, 4> temp_edges2 = maze[x][y-1].getEdgeList();
@@ -119,14 +113,7 @@ int Prim::creatingMaze(int seed, MazeGame *mazeGame){
                 temp_edges2.at(1)[2] = temp_edges2.at(1)[0];
                 temp_edges2.at(1)[3] = temp_edges2.at(1)[1];
                 maze[x][y].setEdgeList(temp_edges1);
-//                maze[x][y].setKilled(true);
                 maze[x][y-1].setEdgeList(temp_edges2);
-//                cell[0] = x;
-//                cell[1] = y-1;
-//                listOfCells.push_back(cell);
-//                maze[x][y-1].setVisited(true);
-//                maze[x][y-1].setKilled(true);
-//                cells++;
             } else{
                 cout <<"error path!" <<endl;
             }
@@ -135,8 +122,5 @@ int Prim::creatingMaze(int seed, MazeGame *mazeGame){
             //            cout << "Your push is: " << push <<"pop: " << pop << endl;
             return 0;
         }
-//        else {
-//            cout << "final if condition:" << endl;
-//        }
     }
 }

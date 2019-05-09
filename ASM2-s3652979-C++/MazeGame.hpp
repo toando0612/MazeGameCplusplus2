@@ -2,7 +2,7 @@
 //  MazeGame.hpp
 //  ASM2-s3652979-C++
 //
-//  Created by Toan Do on 5/3/19.
+//  Created by Toan Do on 4/27/19.
 //  Copyright © 2019 Toan Do. All rights reserved.
 //
 #pragma once
@@ -10,7 +10,8 @@
 #include <fstream>
 #include "Cell.hpp"
 
-//
+//out of range
+// Returns true if x is in range [low..high], else false
 bool inRange(unsigned low, unsigned high, unsigned x);
 
 typedef array<int, 2> isCell;
@@ -20,35 +21,32 @@ class MazeGame {
     
 protected:
     vector <vector<Cell> > maze;
-    int height;
-    int width;
+    unsigned short int height;
+    unsigned short int width;
 public:
     //methods actions on the attributes
     MazeGame();
     
     virtual ~MazeGame();
     
-    MazeGame(int height, int width);
+    MazeGame(unsigned short int height, unsigned short int width);
     
     const vector<vector<Cell>> &getMaze() const;
     
     void setMaze(const vector<vector<Cell>> &maze);
     
-    int getHeight() const;
+    unsigned short int getHeight() const;
     
-    void setHeight(int height);
+    void setHeight(unsigned short int height);
     
-    int getWidth() const;
+    unsigned short int getWidth() const;
     
-    void setWidth(int width);
+    void setWidth(unsigned short int width);
     
     virtual int creatingMaze(int seed, MazeGame *mazeGame);
     
-    vector<vector<Cell> > createWall(int seed);
+    vector<vector<Cell> > createWall();
     
 };
-
-//out of range
-// Returns true if x is in range [low..high], else false
 
 
