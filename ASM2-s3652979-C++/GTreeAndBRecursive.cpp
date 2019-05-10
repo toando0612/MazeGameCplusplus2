@@ -25,22 +25,22 @@ vector<vector<Cell> > GTreeAndBRecursive::createWall(){
 int GTreeAndBRecursive::creatingMaze(int seed, MazeGame *mazeGame){
     srand(seed);
     rand();
-
-    int x = 0;
-    int y = 0;
+    int x,y;
 //    cout << "createMaze of GTreeAndBRecursive class." << endl;
     stack<isCell> listOfCells;
     isCell cell;
     cell[0] = rand() % (width-1);         //set starting point to draw at (0,0)
     cell[1] = rand() % (height-1);
-    
     listOfCells.push(cell);
+    maze[cell[0]][cell[1]].setVisited(true);
     vector<int> neighbours;
     while (true){   //looping for destroying the wall
         /*      check available neighbour  first    */
         if (!listOfCells.empty()) { //finish generating
-            x = listOfCells.top()[0];
-            y = listOfCells.top()[1];
+            isCell temp = listOfCells.top();
+            x = temp[0];
+            y = temp[1];
+            
         }else{
             cout << "Your seed is: " << seed << endl;
             return 0;
@@ -63,6 +63,7 @@ int GTreeAndBRecursive::creatingMaze(int seed, MazeGame *mazeGame){
             int move = neighbours[ran];
             neighbours.clear();
             if (move == 0){ //go to right
+                
                 array<edge, 4> temp_edges1 = maze[x][y].getEdgeList();
                 array<edge, 4> temp_edges2 = maze[x+1][y].getEdgeList();
                 temp_edges1.at(0)[2] = temp_edges1.at(0)[0];

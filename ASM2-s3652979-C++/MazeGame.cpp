@@ -78,11 +78,11 @@ vector<vector<Cell>> MazeGame::createWall(){
             temp_edges[3][3] = j;
             
             Cell cell;
-            if (i==0 && j == 0){
-                cell.setVisited(true);      //visited true for (0,0)
-            }else{
-                cell.setVisited(false);
-            }
+//            if (i==0 && j == 0){
+//                cell.setVisited(true);      //visited true for (0,0)
+//            }else{
+//                cell.setVisited(false);
+//            }
             cell.setEdgeList(temp_edges);      //push edge to cell
             array<int, 2> temp_arr;
             temp_arr[0] = i;

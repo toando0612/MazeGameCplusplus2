@@ -15,15 +15,11 @@
 #include "Timer.hpp"
 #include <iomanip>
 #include <string>
-
-
 const string SAVE_BIN = "--sb";
 const string SAVE_SVG = "--sv";
 unsigned seed;
 unsigned width;
 unsigned height;
-string current = "";
-string nextseg = "";
 
 string checkType(string input){
     if (input == SAVE_SVG || input == SAVE_BIN) {
@@ -32,6 +28,7 @@ string checkType(string input){
         throw "_Saving argument must be: --sv or --sb";
     }
 }
+
 string checkFileName(string input){
     string fileType = input.substr(input.find_last_of(".") + 1);
     if ( fileType == "svg" || fileType == "bin") {
@@ -40,6 +37,7 @@ string checkFileName(string input){
         throw "_Invalid fileType : fileType must be .svg or .bin";
     }
 }
+
 string checkGen(string input){
     if (input == "--gg" || input == "--gp" || input == "--gr") {
         return input;
@@ -55,6 +53,7 @@ string checkBin(string input) {
         throw "_Invalid arguments for --sb";
     }
 }
+
 string checkSvg(string input) {
     if (input == "--sv") {
         return input;
@@ -62,6 +61,7 @@ string checkSvg(string input) {
         throw "_Invalid arguments for --sv";
     }
 }
+
 string checkBinFile(string input) {
     string fileType = input.substr(input.find_last_of(".") + 1);
     if (fileType == "bin") {
@@ -70,6 +70,7 @@ string checkBinFile(string input) {
         throw "_Invalid fileType : fileType must be .bin";
     }
 }
+
 string checkSvgFile(string input) {
     string fileType = input.substr(input.find_last_of(".") + 1);
     if ( fileType == "svg") {
@@ -81,14 +82,13 @@ string checkSvgFile(string input) {
 
 
 
-// Generation of the two segments
-
+// Saving to .svg function
 void genSvg(MazeGame maze, string filename) {
     int x1,y1,x2,y2;
     ofstream svgFile(filename, ofstream::out);
-    svgFile << "<svg"<< " viewBox="<< "\"0 0 " << 100 << " " << 100 << "\""<< " width=\""<<500 << "\""<<" height=\"" << 500 << "\""
+    svgFile << "<svg"<< " viewBox="<< "\"0 0 " << width << " " << height << "\""<< " width=\""<<width << "\""<<" height=\"" << height << "\""
     << " xmlns=" << "\"http://www.w3.org/2000/svg\">" << endl;
-    svgFile << "<rect width=\""<<100 << "\" "<< "height=\""<< 100 << "\" "<< " style=\'" << "fill: black\' " << "/>" << endl;
+    svgFile << "<rect width=\""<<width << "\" "<< "height=\""<< height << "\" "<< " style=\'" << "fill: black\' " << "/>" << endl;
     for (int i = 0; i < maze.getWidth(); i++) {
         for (int j = 0; j < maze.getHeight(); j++) {
             for (int k = 0; k < 4; k++) {
@@ -96,7 +96,7 @@ void genSvg(MazeGame maze, string filename) {
                 y1 =  maze.getMaze()[i][j].getEdgeList()[k][1];
                 x2 =  maze.getMaze()[i][j].getEdgeList()[k][2];
                 y2 =  maze.getMaze()[i][j].getEdgeList()[k][3];
-                svgFile << "<line stroke=\'" << "white\' " << "stroke-width=\'" << "0.05\'" << " x1=\'" << x1 << "\' y1=\'" << y1
+                svgFile << "<line stroke=\'" << "white\' " << "stroke-width=\'" << "0.5\'" << " x1=\'" << x1 << "\' y1=\'" << y1
                 << "\' x2=\'" << x2 << "\' y2=\'" << y2 << "\'/>" << endl;
             }
         }
@@ -105,6 +105,7 @@ void genSvg(MazeGame maze, string filename) {
     svgFile.close();
 }
 
+//saving to .bin function
 void genBin(MazeGame mazeGame, string filename){
     fstream output(filename,fstream::out | fstream::binary | fstream::trunc);
     //     Write headers
@@ -139,7 +140,7 @@ int main(int argc, char* argv[]) {
     try {
         int i = 1;
         string gen = checkGen(argv [i]);
-        if (argc == 7 ){ //have seed
+        if (argc == 7 ){ //One savingType with seed from user
             //collect seed
             //check seed
             try {
@@ -201,7 +202,7 @@ int main(int argc, char* argv[]) {
             
             
             
-        } else if(argc == 6){ //have seed
+        } else if(argc == 6){ //One savingType with no seed from user
             int seed = 10; //default
             // check h,w
             try {
@@ -250,7 +251,7 @@ int main(int argc, char* argv[]) {
                     cout << "+Saving to .BIN time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
                 }
             }
-        } else if(argc == 9){ //have seed
+        } else if(argc == 9){ //Two savingType with seed from user
             //collect seed
             //check seed
             try {
@@ -319,11 +320,7 @@ int main(int argc, char* argv[]) {
                 t = timer.milliseconds_since();
                 cout << "+Saving to .BIN time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
             }
-            
-            
-//            cout << "bin:" << bin << "filebin:" << fileBin << endl;
-
-            }else if (argc == 8) { //no seed
+            }else if (argc == 8) { ///Two savingType with no seed from user
                 int seed = 10; //default
                 // check h,w
                 try {
@@ -387,12 +384,11 @@ int main(int argc, char* argv[]) {
         
     }catch (const char* msg) {
         cerr << msg << endl;
-        cout << "*******************" << endl;
-        cout << "./mazer --lb filename.maze --sv filename.svg # load binary file and save svg file\n"
-        "./mazer --gg seed width height --sb filename.maze # generate with seed value, save binary file\n"
-        "./mazer --gp seed width height --sb filename.maze # generate with seed value, save binary file\n"
-        "./mazer --gr seed width height --sv filename.svg # generate with seed value, save svg file\n"
-        "./mazer --(gg, gp or gr) seed width height --sb filename.maze --sv filename.svg # gen with seed, save binary, save svg\n";
+        cout << "-------------Example------------" << endl;
+        cout << "./mazer --gg seed width height --sb filename.maze \n"
+                "./mazer --gp seed width height --sb filename.maze \n"
+                "./mazer --gr seed width height --sv filename.svg \n"
+                "./mazer --(gg, gp or gr) seed width height --sb filename.maze --sv filename.svg \n";
     }
     return 0;
 }
