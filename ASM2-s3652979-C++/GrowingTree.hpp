@@ -1,5 +1,5 @@
 //
-//  GTreeAndBRecursive.hpp
+//  GrowingTree.hpp
 //  ASM2-s3652979-C++
 //
 //  Created by Toan Do on 4/27/19.
@@ -9,16 +9,15 @@
 
 
 #include "MazeGame.hpp"
-#include <stack>
 
-class GTreeAndBRecursive : public MazeGame{
+class GrowingTree : public MazeGame{
     
 public:
-    GTreeAndBRecursive();
+    GrowingTree();
     
-    virtual ~GTreeAndBRecursive();
+    virtual ~GrowingTree();
     
-    GTreeAndBRecursive(unsigned short int height, unsigned short int width);
+    GrowingTree(unsigned short int height, unsigned short int width);
     
     int creatingMaze(int seed, MazeGame *mazeGame);
     
@@ -26,4 +25,3 @@ public:
     
 };
 
- /* GTreeAndBRecursive_hpp */

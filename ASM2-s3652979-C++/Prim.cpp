@@ -25,7 +25,7 @@ vector<vector<Cell> > Prim::createWall(){
 int Prim::creatingMaze(int seed, MazeGame *mazeGame){
     srand(seed);
     rand();
-//    cout << "createMaze of Prim class." << endl;
+    cout << "createMaze of Prim class." << endl;
     vector<isCell> listOfFrontiers;
     isCell frontier;
     int x = rand() % (width-1);         //set starting point to draw at (0,0)

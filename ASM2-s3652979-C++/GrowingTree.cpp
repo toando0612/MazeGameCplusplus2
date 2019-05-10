@@ -6,40 +6,41 @@
 //  Copyright © 2019 Toan Do. All rights reserved.
 //
 
-#include "GTreeAndBRecursive.hpp"
+#include "GrowingTree.hpp"
 
 
-GTreeAndBRecursive::GTreeAndBRecursive() {}
+GrowingTree::GrowingTree() {}
 
-GTreeAndBRecursive::GTreeAndBRecursive(unsigned short int height, unsigned short int width) : MazeGame(height, width) {}
+GrowingTree::GrowingTree(unsigned short int height, unsigned short int width) : MazeGame(height, width) {}
 
-GTreeAndBRecursive::~GTreeAndBRecursive() {
+GrowingTree::~GrowingTree() {
 }
 
-vector<vector<Cell> > GTreeAndBRecursive::createWall(){
-//    cout << "createWall of GTreeAndBRecursive class" << endl;
+vector<vector<Cell> > GrowingTree::createWall(){
+    //    cout << "createWall of GTreeAndBRecursive class" << endl;
     vector<vector<Cell>> temp;
     return temp;
 }
 
-int GTreeAndBRecursive::creatingMaze(int seed, MazeGame *mazeGame){
+int GrowingTree::creatingMaze(int seed, MazeGame *mazeGame){
     srand(seed);
     rand();
     int x,y;
-//    cout << "createMaze of GTreeAndBRecursive class." << endl;
-    stack<isCell> listOfCells;
+    cout << "createMaze of Growing Tree class." << endl;
+    vector<isCell> listOfCells;
     isCell cell;
     cell[0] = rand() % (width-1);         //set starting point to draw at (0,0)
     cell[1] = rand() % (height-1);
-    listOfCells.push(cell);
+    listOfCells.push_back(cell);
     maze[cell[0]][cell[1]].setVisited(true);
     vector<int> neighbours;
     while (true){   //looping for destroying the wall
         /*      check available neighbour  first    */
         if (!listOfCells.empty()) { //finish generating
-            isCell temp = listOfCells.top();
-            x = temp[0];
-            y = temp[1];
+            int go = rand() % listOfCells.size();       //random to find the location of array
+            cell = listOfCells[go];
+            x = cell[0];
+            y = cell[1];
             
         }else{
             cout << "Your seed is: " << seed << endl;
@@ -74,7 +75,7 @@ int GTreeAndBRecursive::creatingMaze(int seed, MazeGame *mazeGame){
                 maze[x+1][y].setEdgeList(temp_edges2);
                 cell[0] = x+1;
                 cell[1] = y;
-                listOfCells.push(cell);
+                listOfCells.push_back(cell);
                 maze[x+1][y].setVisited(true);
             }else if (move == 1){ //go to bottom
                 array<edge, 4> temp_edges1 = maze[x][y].getEdgeList();
@@ -87,7 +88,7 @@ int GTreeAndBRecursive::creatingMaze(int seed, MazeGame *mazeGame){
                 maze[x][y+1].setEdgeList(temp_edges2);
                 cell[0] = x;
                 cell[1] = y+1;
-                listOfCells.push(cell);
+                listOfCells.push_back(cell);
                 maze[x][y+1].setVisited(true);
             }else if (move == 2){ //go to left
                 array<edge, 4> temp_edges1 = maze[x][y].getEdgeList();
@@ -100,7 +101,7 @@ int GTreeAndBRecursive::creatingMaze(int seed, MazeGame *mazeGame){
                 maze[x-1][y].setEdgeList(temp_edges2);
                 cell[0] = x-1;
                 cell[1] = y;
-                listOfCells.push(cell);
+                listOfCells.push_back(cell);
                 maze[x-1][y].setVisited(true);
             }else if (move == 3){ //go to top
                 array<edge, 4> temp_edges1 = maze[x][y].getEdgeList();
@@ -113,13 +114,13 @@ int GTreeAndBRecursive::creatingMaze(int seed, MazeGame *mazeGame){
                 maze[x][y-1].setEdgeList(temp_edges2);
                 cell[0] = x;
                 cell[1] = y-1;
-                listOfCells.push(cell);
+                listOfCells.push_back(cell);
                 maze[x][y-1].setVisited(true);
             } else{
                 cout <<"error path!" <<endl;
             }
         }else{
-            listOfCells.pop();
+            listOfCells.pop_back();
         }
     }
 }

@@ -4,7 +4,7 @@ Assignment 2 - C++ RMIT
 
 This program have a following functions:
 +Generate a maze from user input with three difference algorithms
-+Save the maze as .svg .bin
++Save the maze as .svg .maze
 +Generating a maze with unlimited value of width and height.
 +Valid user input
 

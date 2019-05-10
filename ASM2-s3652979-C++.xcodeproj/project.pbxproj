@@ -10,7 +10,8 @@
 		BEC430CA227C041300AE4A9D /* mazer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC430C9227C041300AE4A9D /* mazer.cpp */; };
 		BEC430D2227C047600AE4A9D /* MazeGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC430D0227C047600AE4A9D /* MazeGame.cpp */; };
 		BEC430D5227C050000AE4A9D /* Cell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC430D3227C050000AE4A9D /* Cell.cpp */; };
-		BEF3CF30227F393300E8FE7D /* GTreeAndBRecursive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF3CF2E227F393300E8FE7D /* GTreeAndBRecursive.cpp */; };
+		BEC829942285C7B90012E74C /* GrowingTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC829922285C7B90012E74C /* GrowingTree.cpp */; };
+		BEF3CF30227F393300E8FE7D /* RecursiveBacktracking.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF3CF2E227F393300E8FE7D /* RecursiveBacktracking.cpp */; };
 		BEF3CF33227F424C00E8FE7D /* Prim.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF3CF31227F424C00E8FE7D /* Prim.cpp */; };
 		BEF3CF8A228458BD00E8FE7D /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF3CF88228458BD00E8FE7D /* Timer.cpp */; };
 /* End PBXBuildFile section */
@@ -34,8 +35,10 @@
 		BEC430D1227C047600AE4A9D /* MazeGame.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MazeGame.hpp; sourceTree = "<group>"; };
 		BEC430D3227C050000AE4A9D /* Cell.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cell.cpp; sourceTree = "<group>"; };
 		BEC430D4227C050000AE4A9D /* Cell.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Cell.hpp; sourceTree = "<group>"; };
-		BEF3CF2E227F393300E8FE7D /* GTreeAndBRecursive.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GTreeAndBRecursive.cpp; sourceTree = "<group>"; };
-		BEF3CF2F227F393300E8FE7D /* GTreeAndBRecursive.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GTreeAndBRecursive.hpp; sourceTree = "<group>"; };
+		BEC829922285C7B90012E74C /* GrowingTree.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GrowingTree.cpp; sourceTree = "<group>"; };
+		BEC829932285C7B90012E74C /* GrowingTree.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GrowingTree.hpp; sourceTree = "<group>"; };
+		BEF3CF2E227F393300E8FE7D /* RecursiveBacktracking.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RecursiveBacktracking.cpp; sourceTree = "<group>"; };
+		BEF3CF2F227F393300E8FE7D /* RecursiveBacktracking.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RecursiveBacktracking.hpp; sourceTree = "<group>"; };
 		BEF3CF31227F424C00E8FE7D /* Prim.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Prim.cpp; sourceTree = "<group>"; };
 		BEF3CF32227F424C00E8FE7D /* Prim.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Prim.hpp; sourceTree = "<group>"; };
 		BEF3CF88228458BD00E8FE7D /* Timer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
@@ -77,12 +80,14 @@
 				BEC430D1227C047600AE4A9D /* MazeGame.hpp */,
 				BEC430D3227C050000AE4A9D /* Cell.cpp */,
 				BEC430D4227C050000AE4A9D /* Cell.hpp */,
-				BEF3CF2E227F393300E8FE7D /* GTreeAndBRecursive.cpp */,
-				BEF3CF2F227F393300E8FE7D /* GTreeAndBRecursive.hpp */,
+				BEF3CF2E227F393300E8FE7D /* RecursiveBacktracking.cpp */,
+				BEF3CF2F227F393300E8FE7D /* RecursiveBacktracking.hpp */,
 				BEF3CF31227F424C00E8FE7D /* Prim.cpp */,
 				BEF3CF32227F424C00E8FE7D /* Prim.hpp */,
 				BEF3CF88228458BD00E8FE7D /* Timer.cpp */,
 				BEF3CF89228458BD00E8FE7D /* Timer.hpp */,
+				BEC829922285C7B90012E74C /* GrowingTree.cpp */,
+				BEC829932285C7B90012E74C /* GrowingTree.hpp */,
 			);
 			path = "ASM2-s3652979-C++";
 			sourceTree = "<group>";
@@ -143,8 +148,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEC829942285C7B90012E74C /* GrowingTree.cpp in Sources */,
 				BEC430D5227C050000AE4A9D /* Cell.cpp in Sources */,
-				BEF3CF30227F393300E8FE7D /* GTreeAndBRecursive.cpp in Sources */,
+				BEF3CF30227F393300E8FE7D /* RecursiveBacktracking.cpp in Sources */,
 				BEC430D2227C047600AE4A9D /* MazeGame.cpp in Sources */,
 				BEF3CF8A228458BD00E8FE7D /* Timer.cpp in Sources */,
 				BEC430CA227C041300AE4A9D /* mazer.cpp in Sources */,

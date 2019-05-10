@@ -10,7 +10,8 @@
 //Do Quoc Toan - s3652979
 
 
-#include "GTreeAndBRecursive.hpp"
+#include "RecursiveBacktracking.hpp"
+#include "GrowingTree.hpp"
 #include "Prim.hpp"
 #include "Timer.hpp"
 #include <iomanip>
@@ -31,10 +32,10 @@ string checkType(string input){
 
 string checkFileName(string input){
     string fileType = input.substr(input.find_last_of(".") + 1);
-    if ( fileType == "svg" || fileType == "bin") {
+    if ( fileType == "svg" || fileType == "maze") {
         return input;
     }else{
-        throw "_Invalid fileType : fileType must be .svg or .bin";
+        throw "_Invalid fileType : fileType must be .svg or .maze";
     }
 }
 
@@ -62,15 +63,17 @@ string checkSvg(string input) {
     }
 }
 
+//check extension
 string checkBinFile(string input) {
     string fileType = input.substr(input.find_last_of(".") + 1);
-    if (fileType == "bin") {
+    if (fileType == "maze") {
         return input;
     }else{
-        throw "_Invalid fileType : fileType must be .bin";
+        throw "_Invalid fileType : fileType must be .maze";
     }
 }
 
+//check extension
 string checkSvgFile(string input) {
     string fileType = input.substr(input.find_last_of(".") + 1);
     if ( fileType == "svg") {
@@ -80,13 +83,22 @@ string checkSvgFile(string input) {
     }
 }
 
+//check valid argurment -cal for calculating time
+string checkCalculator(string input) {
+    if ( input == "-cal") {
+        return input;
+    }else{
+        throw "Must be \"-cal\" to calculating time generating!";
+    }
+}
+
 
 
 // Saving to .svg function
 void genSvg(MazeGame maze, string filename) {
     int x1,y1,x2,y2;
     ofstream svgFile(filename, ofstream::out);
-    svgFile << "<svg"<< " viewBox="<< "\"0 0 " << width << " " << height << "\""<< " width=\""<<width << "\""<<" height=\"" << height << "\""
+    svgFile << "<svg"<< " viewBox="<< "\"0 0 " << width << " " << height << "\""<< " width=\""<<500 << "\""<<" height=\"" << 500 << "\""
     << " xmlns=" << "\"http://www.w3.org/2000/svg\">" << endl;
     svgFile << "<rect width=\""<<width << "\" "<< "height=\""<< height << "\" "<< " style=\'" << "fill: black\' " << "/>" << endl;
     for (int i = 0; i < maze.getWidth(); i++) {
@@ -96,7 +108,7 @@ void genSvg(MazeGame maze, string filename) {
                 y1 =  maze.getMaze()[i][j].getEdgeList()[k][1];
                 x2 =  maze.getMaze()[i][j].getEdgeList()[k][2];
                 y2 =  maze.getMaze()[i][j].getEdgeList()[k][3];
-                svgFile << "<line stroke=\'" << "white\' " << "stroke-width=\'" << "0.5\'" << " x1=\'" << x1 << "\' y1=\'" << y1
+                svgFile << "<line stroke=\'" << "white\' " << "stroke-width=\'" << "0.4\'" << " x1=\'" << x1 << "\' y1=\'" << y1
                 << "\' x2=\'" << x2 << "\' y2=\'" << y2 << "\'/>" << endl;
             }
         }
@@ -105,7 +117,7 @@ void genSvg(MazeGame maze, string filename) {
     svgFile.close();
 }
 
-//saving to .bin function
+//saving to .maze function
 void genBin(MazeGame mazeGame, string filename){
     fstream output(filename,fstream::out | fstream::binary | fstream::trunc);
     //     Write headers
@@ -139,18 +151,15 @@ int main(int argc, char* argv[]) {
 //
     try {
         int i = 1;
-        string gen = checkGen(argv [i]);
         if (argc == 7 ){ //One savingType with seed from user
             //collect seed
             //check seed
+            string gen = checkGen(argv [i]);
             try {
                 i++;
                 seed = (int) stol(argv [i]);
             }catch (const invalid_argument){
-                cout << "_Seed must be a number" <<endl;
-                return 1;
-            }catch (const out_of_range) {
-                cout << "_Seed must be lower than: " << UID_MAX << endl;
+                cout << "_Seed must be a number" <<endl;    //check valid seed
                 return 1;
             }
             // check h,w
@@ -160,29 +169,45 @@ int main(int argc, char* argv[]) {
                 i++;
                 height = (int) stol(argv [i]);
                 i++;
-            }catch (const invalid_argument){
+            }catch (const invalid_argument){                //check valid h,w
                 cout << "_Height and width must be numbers" <<endl;
             }
             string filename = checkFileName(argv[i+1]);
             Timer timer;
             MazeGame *mazeGame;
-            if (gen == "--gg" || gen == "--gr") {
-                GTreeAndBRecursive gb(height, width);
-                mazeGame = &gb;
+            if (gen == "--gr") {    //recursive backtracking
+                RecursiveBacktracking rb(height, width);
+                mazeGame = &rb;
                 mazeGame->setMaze(mazeGame->createWall());
                 mazeGame->creatingMaze(seed, mazeGame);
                 double t = timer.milliseconds_since();
                 cout << "+Generation time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
                 if (checkType(argv[i]) == SAVE_SVG) {
-                    genSvg(*mazeGame, filename);
+                    genSvg(*mazeGame, checkSvgFile(filename));
                     t = timer.milliseconds_since();
                     cout << "+Saving to .SVG time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
                 }else{
-                    genBin(*mazeGame, filename);
+                    genBin(*mazeGame, checkBinFile(filename));
                     t = timer.milliseconds_since();
-                    cout << "+Saving to .BIN time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+                    cout << "+Saving to .maze time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
                 }
-            }else{
+            }else if(gen == "--gg"){ //growing tree
+                GrowingTree gt(height, width);
+                mazeGame = &gt;
+                mazeGame->setMaze(mazeGame->createWall());
+                mazeGame->creatingMaze(seed, mazeGame);
+                double t = timer.milliseconds_since();
+                cout << "+Generation time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+                if (checkType(argv[i]) == SAVE_SVG) {
+                    genSvg(*mazeGame, checkSvgFile(filename));
+                    t = timer.milliseconds_since();
+                    cout << "+Saving to .SVG time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+                }else{
+                    genBin(*mazeGame, checkBinFile(filename));
+                    t = timer.milliseconds_since();
+                    cout << "+Saving to .maze time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+                }
+            }else{  // prim
                 Prim prim(height, width);
                 mazeGame = &prim;
                 mazeGame->setMaze(mazeGame->createWall());
@@ -190,13 +215,13 @@ int main(int argc, char* argv[]) {
                 double t = timer.milliseconds_since();
                 cout << "+Generation time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
                 if (checkType(argv[i]) == SAVE_SVG) {
-                    genSvg(*mazeGame, filename);
+                    genSvg(*mazeGame, checkSvgFile(filename));
                     t = timer.milliseconds_since();
                     cout << "+Saving to .SVG time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
                 }else{
-                    genBin(*mazeGame, filename);
+                    genBin(*mazeGame, checkBinFile(filename));
                     t = timer.milliseconds_since();
-                    cout << "+Saving to .BIN time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+                    cout << "+Saving to .maze time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
                 }
             }
             
@@ -205,36 +230,52 @@ int main(int argc, char* argv[]) {
         } else if(argc == 6){ //One savingType with no seed from user
             int seed = 10; //default
             // check h,w
+            string gen = checkGen(argv [i]);
             try {
                 i++;
                 width = (int) stol(argv [i]);
                 i++;
                 height = (int) stol(argv [i]);
                 i++;
-            }catch (const invalid_argument){
+            }catch (const invalid_argument){            //check valid h,w
                 cout << "Height and width must be numbers" <<endl;
             }
             string filename = checkFileName(argv[i+1]);
             Timer timer;
-            if (gen == "--gg" || gen == "--gr") {
-                MazeGame *mazeGame;
-                GTreeAndBRecursive gb(height, width);
-                mazeGame = &gb;
+            MazeGame *mazeGame;
+            if (gen == "--gr") {    //recursive backtracking
+                RecursiveBacktracking rb(height, width);
+                mazeGame = &rb;
                 mazeGame->setMaze(mazeGame->createWall());
                 mazeGame->creatingMaze(seed, mazeGame);
                 double t = timer.milliseconds_since();
                 cout << "+Generation time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
                 if (checkType(argv[i]) == SAVE_SVG) {
-                    genSvg(*mazeGame, filename);
+                    genSvg(*mazeGame, checkSvgFile(filename));
                     t = timer.milliseconds_since();
                     cout << "+Saving to .SVG time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
                 }else{
-                    genBin(*mazeGame, filename);
+                    genBin(*mazeGame, checkBinFile(filename));
                     t = timer.milliseconds_since();
-                    cout << "+Saving to .BIN time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+                    cout << "+Saving to .maze time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
                 }
-            }else{
-                MazeGame *mazeGame;
+            }else if(gen == "--gg"){    //growing tree
+                GrowingTree gt(height, width);
+                mazeGame = &gt;
+                mazeGame->setMaze(mazeGame->createWall());
+                mazeGame->creatingMaze(seed, mazeGame);
+                double t = timer.milliseconds_since();
+                cout << "+Generation time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+                if (checkType(argv[i]) == SAVE_SVG) {
+                    genSvg(*mazeGame, checkSvgFile(filename));
+                    t = timer.milliseconds_since();
+                    cout << "+Saving to .SVG time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+                }else{
+                    genBin(*mazeGame, checkBinFile(filename));
+                    t = timer.milliseconds_since();
+                    cout << "+Saving to .maze time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+                }
+            }else{  //prim
                 Prim prim(height, width);
                 mazeGame = &prim;
                 mazeGame->setMaze(mazeGame->createWall());
@@ -242,26 +283,24 @@ int main(int argc, char* argv[]) {
                 double t = timer.milliseconds_since();
                 cout << "+Generation time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
                 if (checkType(argv[i]) == SAVE_SVG) {
-                    genSvg(*mazeGame, filename);
+                    genSvg(*mazeGame, checkSvgFile(filename));
                     t = timer.milliseconds_since();
                     cout << "+Saving to .SVG time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
                 }else{
-                    genBin(*mazeGame, filename);
+                    genBin(*mazeGame, checkBinFile(filename));
                     t = timer.milliseconds_since();
-                    cout << "+Saving to .BIN time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+                    cout << "+Saving to .maze time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
                 }
             }
         } else if(argc == 9){ //Two savingType with seed from user
             //collect seed
             //check seed
+            string gen = checkGen(argv [i]);  // i = 1
             try {
                 i++;
                 seed = (int) stol(argv [i]);
             }catch (const invalid_argument){
-                cout << "_Seed must be a number" <<endl;
-                return 1;
-            }catch (const out_of_range) {
-                cout << "_Seed must be lower than: " << UID_MAX << endl;
+                cout << "_Seed must be a number" <<endl; //check valid seed
                 return 1;
             }
             // check h,w
@@ -272,13 +311,13 @@ int main(int argc, char* argv[]) {
                 height = (int) stol(argv [i]);
                 i++;
             }catch (const invalid_argument){
-                cout << "_Height and width must be numbers" <<endl;
+                cout << "_Height and width must be numbers" <<endl; //check valid h,w
             }
             Timer timer;
-            if (gen == "--gg" || gen == "--gr") {
-                MazeGame *mazeGame;
-                GTreeAndBRecursive gb(height, width);
-                mazeGame = &gb;
+            MazeGame *mazeGame;
+            if (gen == "--gr") {
+                RecursiveBacktracking rb(height, width);
+                mazeGame = &rb;
                 mazeGame->setMaze(mazeGame->createWall());
                 mazeGame->creatingMaze(seed, mazeGame);
                 double t = timer.milliseconds_since();
@@ -296,9 +335,30 @@ int main(int argc, char* argv[]) {
                 cout << "+Saving to .SVG time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
                 genBin(*mazeGame, fileBin);
                 t = timer.milliseconds_since();
-                cout << "+Saving to .BIN time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
-            }else{
-                MazeGame *mazeGame;
+                cout << "+Saving to .maze time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+            }else if (gen == "--gg"){
+                GrowingTree gt(height, width);
+                mazeGame = &gt;
+                mazeGame->setMaze(mazeGame->createWall());
+                mazeGame->creatingMaze(seed, mazeGame);
+                double t = timer.milliseconds_since();
+                cout << "+Generation time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+                string bin = checkBin(argv[i]);
+                i++;
+                cout << argv[i] << endl;
+                string fileBin = checkBinFile(argv[i]);
+                i++;
+                string svg = checkSvg(argv[i]);
+                i++;
+                string fileSvg = checkSvgFile(argv[i]);
+                genSvg(*mazeGame, fileSvg);
+                t = timer.milliseconds_since();
+                cout << "+Saving to .SVG time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+                genBin(*mazeGame, fileBin);
+                t = timer.milliseconds_since();
+                cout << "+Saving to .maze time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+            
+            } else{
                 Prim prim(height, width);
                 mazeGame = &prim;
                 mazeGame->setMaze(mazeGame->createWall());
@@ -318,10 +378,11 @@ int main(int argc, char* argv[]) {
                 cout << "+Saving to .SVG time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
                 genBin(*mazeGame, fileBin);
                 t = timer.milliseconds_since();
-                cout << "+Saving to .BIN time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
-            }
-            }else if (argc == 8) { ///Two savingType with no seed from user
+                cout << "+Saving to .maze time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+                }
+        }else if (argc == 8) { ///Two savingType with no seed from user
                 int seed = 10; //default
+                string gen = checkGen(argv [i]);
                 // check h,w
                 try {
                     i++;
@@ -333,10 +394,10 @@ int main(int argc, char* argv[]) {
                     cout << "_Height and width must be numbers" <<endl;
                 }
                 Timer timer;
-                if (gen == "--gg" || gen == "--gr") {
-                    MazeGame *mazeGame;
-                    GTreeAndBRecursive gb(height, width);
-                    mazeGame = &gb;
+                MazeGame *mazeGame;
+                if (gen == "--gr") {
+                    RecursiveBacktracking rb(height, width);
+                    mazeGame = &rb;
                     mazeGame->setMaze(mazeGame->createWall());
                     mazeGame->creatingMaze(seed, mazeGame);
                     double t = timer.milliseconds_since();
@@ -354,9 +415,30 @@ int main(int argc, char* argv[]) {
                     cout << "+Saving to .SVG time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
                     genBin(*mazeGame, fileBin);
                     t = timer.milliseconds_since();
-                    cout << "+Saving to .BIN time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
-                }else{
-                    MazeGame *mazeGame;
+                    cout << "+Saving to .maze time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+                }else if (gen == "--gg"){
+                    GrowingTree gt(height, width);
+                    mazeGame = &gt;
+                    mazeGame->setMaze(mazeGame->createWall());
+                    mazeGame->creatingMaze(seed, mazeGame);
+                    double t = timer.milliseconds_since();
+                    cout << "+Generation time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+                    string bin = checkBin(argv[i]);
+                    i++;
+                    cout << argv[i] << endl;
+                    string fileBin = checkBinFile(argv[i]);
+                    i++;
+                    string svg = checkSvg(argv[i]);
+                    i++;
+                    string fileSvg = checkSvgFile(argv[i]);
+                    genSvg(*mazeGame, fileSvg);
+                    t = timer.milliseconds_since();
+                    cout << "+Saving to .SVG time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+                    genBin(*mazeGame, fileBin);
+                    t = timer.milliseconds_since();
+                    cout << "+Saving to .maze time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+                    
+                } else{
                     Prim prim(height, width);
                     mazeGame = &prim;
                     mazeGame->setMaze(mazeGame->createWall());
@@ -376,9 +458,43 @@ int main(int argc, char* argv[]) {
                     cout << "+Saving to .SVG time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
                     genBin(*mazeGame, fileBin);
                     t = timer.milliseconds_since();
-                    cout << "+Saving to .BIN time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
+                    cout << "+Saving to .maze time: " << t << "=>milliseconds("<< setprecision(9) << t/1000 << " seconds)." <<endl;
                 }
-            }else{
+            }else if (argc == 2) {
+                checkCalculator(argv[i]);
+                int sum = 0;
+                for (int count = 0; count < 10; count ++) {
+                    Timer timer;
+                    MazeGame *mazeGame;
+                    Prim prim(2000, 2000);
+                    mazeGame = &prim;
+                    mazeGame->setMaze(mazeGame->createWall());
+                    mazeGame->creatingMaze(0, mazeGame);
+                    genSvg(*mazeGame, "svvgFile.svg");
+                    genBin(*mazeGame, "binFile.maze");
+                    double t = timer.milliseconds_since();
+                    sum = sum + t;
+                }
+                int average = sum/10;
+                sum = 0;
+                cout << "+Average time of 10x2000/2000 with Prim's Algorithm: " << average << "=>milliseconds("<< setprecision(9) << average/1000 << " seconds)." <<endl;
+                for (int count = 0; count < 10; count ++) {
+                    Timer timer;
+                    MazeGame *mazeGame;
+                    RecursiveBacktracking rb(2000, 2000);
+                    mazeGame = &rb;
+                    mazeGame->setMaze(mazeGame->createWall());
+                    mazeGame->creatingMaze(0, mazeGame);
+                    genSvg(*mazeGame, "svvgFile.svg");
+                    genBin(*mazeGame, "binFile.maze");
+                    double t = timer.milliseconds_since();
+                    sum = sum + t;
+                }
+                average = sum/10;
+                sum = 0;
+                cout << "+Average time of 10x2000/2000 with Recursive Backtracking 's Algorithm: " << average << "=>milliseconds("<< setprecision(9) << average/1000 << " seconds)." <<endl;
+            }
+            else{
                 throw "Invalid argument";
             }
         

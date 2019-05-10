@@ -47,7 +47,7 @@ void MazeGame::setWidth(unsigned short int width) {
 
 
 vector<vector<Cell>> MazeGame::createWall(){
-//    cout << "createWall of MazeGame class." << endl;
+    cout << "createWall of MazeGame class." << endl;
     //1st draw of maze
     vector<vector<Cell> > temp_maze;
     for (auto i = 0; i < width; i++)
@@ -97,7 +97,7 @@ vector<vector<Cell>> MazeGame::createWall(){
 
 
 int MazeGame::creatingMaze(int seed, MazeGame *mazeGame){
-//    cout << "createMaze of MazeGame class." << endl;
+    cout << "createMaze of MazeGame class." << endl;
 
     return 0;
 }
