@@ -10,7 +10,7 @@ This program have a following functions:
 
 Either can compile the program with CMakeList.txt file or using command:
 
-g++ -std=c++14 -o mazer mazer.cpp GTreeAndBRecursive.cpp Cell.cpp MazeGame.cpp Timer.cpp Prim.cpp
+g++ -std=c++14 -o mazer mazer.cpp RecursiveBacktracking.cpp GrowingTree.cpp Cell.cpp MazeGame.cpp Timer.cpp Prim.cpp
 
 *Instructions:
 **Note that: seed value is optional. Default value is 10 if users leave seed empty
